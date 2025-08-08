@@ -7,22 +7,20 @@ import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.use(cookieParser());
+  // Enable global Zod validation (instead of class-validator)
+  app.useGlobalPipes(new GlobalZodValidationPipe());
+
   // Enable CORS
   app.enableCors({
     origin: [
       'http://localhost:3000',
-      'https://reservation-frontend-phi.vercel.app/',
+      'https://reservation-frontend-phi.vercel.app',
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   });
-
-  // Enable cookie parser
-  app.use(cookieParser());
-
-  // Enable global Zod validation (instead of class-validator)
-  app.useGlobalPipes(new GlobalZodValidationPipe());
 
   const config = new DocumentBuilder()
     .setTitle('Project API')
