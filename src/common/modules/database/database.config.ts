@@ -8,6 +8,8 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const databaseUrl = this.configService.get<string>('DATABASE_URL');
+    const isProduction =
+      this.configService.get<string>('NODE_ENV') === 'production';
 
     // If DATABASE_URL is provided, use it directly
     if (databaseUrl) {
@@ -15,8 +17,9 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
         type: 'postgres',
         url: databaseUrl,
         entities: [__dirname + '/../../../**/*.entity{.ts,.js}'],
-        synchronize:
-          this.configService.get<string>('NODE_ENV') !== 'production',
+        migrations: [__dirname + '/../migrations/*{.ts,.js}'],
+        synchronize: !isProduction,
+        migrationsRun: isProduction,
         logging: this.configService.get<string>('NODE_ENV') === 'development',
         autoLoadEntities: true,
         retryAttempts: 3,
@@ -37,7 +40,9 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
       database:
         this.configService.get<string>('DB_DATABASE') || 'project_name_db',
       entities: [__dirname + '/../../../**/*.entity{.ts,.js}'],
-      synchronize: this.configService.get<string>('NODE_ENV') !== 'production',
+      migrations: [__dirname + '/../migrations/*{.ts,.js}'],
+      synchronize: !isProduction,
+      migrationsRun: isProduction,
       logging: this.configService.get<string>('NODE_ENV') === 'development',
       autoLoadEntities: true,
       retryAttempts: 3,

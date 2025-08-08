@@ -14,20 +14,12 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const userData = {
-      ...createUserDto,
-      phone: createUserDto.phone ?? undefined,
-    };
-    const user = this.userRepository.create(userData);
+    const user = this.userRepository.create(createUserDto);
     return await this.userRepository.save(user);
   }
 
   async createWithPassword(registerDto: RegisterDto): Promise<User> {
-    const userData = {
-      ...registerDto,
-      phone: registerDto.phone ?? undefined,
-    };
-    const user = this.userRepository.create(userData);
+    const user = this.userRepository.create(registerDto);
     return await this.userRepository.save(user);
   }
 
@@ -49,9 +41,7 @@ export class UserService {
       select: [
         'id',
         'email',
-        'firstName',
-        'lastName',
-        'phone',
+        'fullName',
         'password',
         'isActive',
         'createdAt',

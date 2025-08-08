@@ -15,13 +15,7 @@ export class User {
   email: string;
 
   @Column()
-  firstName: string;
-
-  @Column()
-  lastName: string;
-
-  @Column({ nullable: true })
-  phone?: string;
+  fullName: string;
 
   @Column({ select: false })
   password: string;

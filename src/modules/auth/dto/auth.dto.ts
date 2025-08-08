@@ -11,19 +11,10 @@ export const LoginSchema = z.object({
 // Register schema (extends CreateUserSchema with password)
 export const RegisterSchema = z.object({
   email: z.string().email('Invalid email format'),
-  firstName: z
+  fullName: z
     .string()
-    .min(1, 'First name is required')
-    .max(50, 'First name must be less than 50 characters'),
-  lastName: z
-    .string()
-    .min(1, 'Last name is required')
-    .max(50, 'Last name must be less than 50 characters'),
-  phone: z
-    .string()
-    .regex(/^\+?[\d\s\-()]+$/, 'Invalid phone number format')
-    .optional()
-    .nullable(),
+    .min(1, 'Full name is required')
+    .max(50, 'Full name must be less than 50 characters'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
@@ -32,9 +23,7 @@ export const AuthResponseSchema = z.object({
   user: z.object({
     id: z.string().uuid(),
     email: z.string().email(),
-    firstName: z.string(),
-    lastName: z.string(),
-    phone: z.string().nullable().optional(),
+    fullName: z.string(),
     isActive: z.boolean(),
     createdAt: z.date(),
     updatedAt: z.date(),
@@ -64,23 +53,10 @@ export class RegisterDto extends createZodDto(RegisterSchema) {
   email: string;
 
   @ApiProperty({
-    example: 'John',
-    description: 'User first name',
+    example: 'John Doe',
+    description: 'User full name',
   })
-  firstName: string;
-
-  @ApiProperty({
-    example: 'Doe',
-    description: 'User last name',
-  })
-  lastName: string;
-
-  @ApiProperty({
-    example: '+1-555-123-4567',
-    description: 'User phone number',
-    required: false,
-  })
-  phone?: string;
+  fullName: string;
 
   @ApiProperty({
     example: 'password123',
@@ -96,9 +72,7 @@ export class AuthResponseDto extends createZodDto(AuthResponseSchema) {
   user: {
     id: string;
     email: string;
-    firstName: string;
-    lastName: string;
-    phone?: string;
+    fullName: string;
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;

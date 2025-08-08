@@ -41,9 +41,7 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        phone: user.phone,
+        fullName: user.fullName,
         isActive: user.isActive,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
@@ -77,9 +75,7 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        phone: user.phone,
+        fullName: user.fullName,
         isActive: user.isActive,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
@@ -92,8 +88,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      fullName: user.fullName,
     };
 
     return this.jwtService.sign(payload);

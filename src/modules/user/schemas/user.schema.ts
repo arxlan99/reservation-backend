@@ -6,19 +6,10 @@ import { ApiProperty } from '@nestjs/swagger';
 export const UserSchema = z.object({
   id: z.string().uuid().optional(),
   email: z.string().email('Invalid email format').min(1, 'Email is required'),
-  firstName: z
+  fullName: z
     .string()
-    .min(1, 'First name is required')
-    .max(50, 'First name must be less than 50 characters'),
-  lastName: z
-    .string()
-    .min(1, 'Last name is required')
-    .max(50, 'Last name must be less than 50 characters'),
-  phone: z
-    .string()
-    .regex(/^\+?[\d\s\-()]+$/, 'Invalid phone number format')
-    .optional()
-    .nullable(),
+    .min(1, 'Full name is required')
+    .max(50, 'Full name must be less than 50 characters'),
   isActive: z.boolean().optional().default(true),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
@@ -27,17 +18,13 @@ export const UserSchema = z.object({
 // Create user schema (for POST requests)
 export const CreateUserSchema = UserSchema.pick({
   email: true,
-  firstName: true,
-  lastName: true,
-  phone: true,
+  fullName: true,
 });
 
 // Update user schema (for PATCH requests - all fields optional)
 export const UpdateUserSchema = UserSchema.pick({
   email: true,
-  firstName: true,
-  lastName: true,
-  phone: true,
+  fullName: true,
   isActive: true,
 }).partial();
 
@@ -55,23 +42,10 @@ export class CreateUserDto extends createZodDto(CreateUserSchema) {
   email: string;
 
   @ApiProperty({
-    example: 'John',
-    description: 'User first name',
+    example: 'John Doe',
+    description: 'User full name',
   })
-  firstName: string;
-
-  @ApiProperty({
-    example: 'Doe',
-    description: 'User last name',
-  })
-  lastName: string;
-
-  @ApiProperty({
-    example: '+1-555-123-4567',
-    description: 'User phone number',
-    required: false,
-  })
-  phone?: string;
+  fullName: string;
 }
 
 export class UpdateUserDto extends createZodDto(UpdateUserSchema) {
@@ -83,25 +57,11 @@ export class UpdateUserDto extends createZodDto(UpdateUserSchema) {
   email?: string;
 
   @ApiProperty({
-    example: 'John',
-    description: 'User first name',
+    example: 'John Doe',
+    description: 'User full name',
     required: false,
   })
-  firstName?: string;
-
-  @ApiProperty({
-    example: 'Doe',
-    description: 'User last name',
-    required: false,
-  })
-  lastName?: string;
-
-  @ApiProperty({
-    example: '+1-555-987-6543',
-    description: 'User phone number',
-    required: false,
-  })
-  phone?: string;
+  fullName?: string;
 
   @ApiProperty({
     example: true,
@@ -125,23 +85,10 @@ export class UserResponseDto extends createZodDto(UserResponseSchema) {
   email: string;
 
   @ApiProperty({
-    example: 'John',
-    description: 'User first name',
+    example: 'John Doe',
+    description: 'User full name',
   })
-  firstName: string;
-
-  @ApiProperty({
-    example: 'Doe',
-    description: 'User last name',
-  })
-  lastName: string;
-
-  @ApiProperty({
-    example: '+1-555-123-4567',
-    description: 'User phone number',
-    required: false,
-  })
-  phone?: string;
+  fullName: string;
 
   @ApiProperty({
     example: true,
