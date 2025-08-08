@@ -75,11 +75,10 @@ export class AuthController {
 
     // Set HTTP-only cookie
     res.cookie('access_token', result.token, {
-      httpOnly: true,
+      httpOnly: process.env.NODE_ENV === 'production',
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
     });
 
     // Return user data without token
@@ -98,10 +97,10 @@ export class AuthController {
   logout(@Res({ passthrough: true }) res: Response) {
     // Clear the cookie with same options as when it was set
     res.clearCookie('access_token', {
-      httpOnly: true,
+      httpOnly: process.env.NODE_ENV === 'production',
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      // domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
     });
 
     return { message: 'Logged out successfully' };

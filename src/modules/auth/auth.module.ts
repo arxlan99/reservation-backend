@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { CookieAuthGuard } from './guards/cookie-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { CookieAuthGuard } from './guards/cookie-auth.guard';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, CookieAuthGuard],
-  exports: [AuthService, CookieAuthGuard],
+  providers: [AuthService, JwtStrategy, CookieAuthGuard, JwtAuthGuard],
+  exports: [AuthService, CookieAuthGuard, JwtAuthGuard, JwtModule],
 })
 export class AuthModule {}

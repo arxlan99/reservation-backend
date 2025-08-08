@@ -7,7 +7,9 @@ import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Enable cookie parser
   app.use(cookieParser());
+
   // Enable global Zod validation (instead of class-validator)
   app.useGlobalPipes(new GlobalZodValidationPipe());
 
