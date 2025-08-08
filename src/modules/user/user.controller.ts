@@ -18,7 +18,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UuidValidationPipe } from '../../common/pipes/uuid-validation.pipe';
 import { UserResponseDto } from './schemas/user.schema';
-import { CookieAuthGuard } from '../auth/guards/cookie-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -48,7 +48,7 @@ export class UserController {
   }
 
   @Get('profile')
-  @UseGuards(CookieAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get current user profile (protected route)' })
   @ApiResponse({
     status: 200,
