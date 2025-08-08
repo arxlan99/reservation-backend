@@ -41,9 +41,9 @@ export class AuthController {
     res.cookie('access_token', result.token, {
       httpOnly: process.env.NODE_ENV === 'production',
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
+      // domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
     });
 
     // Return user data without token
