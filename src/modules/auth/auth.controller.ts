@@ -43,6 +43,7 @@ export class AuthController {
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
     });
 
     // Return user data without token
@@ -76,8 +77,9 @@ export class AuthController {
     res.cookie('access_token', result.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
     });
 
     // Return user data without token
@@ -94,8 +96,13 @@ export class AuthController {
     description: 'User successfully logged out',
   })
   logout(@Res({ passthrough: true }) res: Response) {
-    // Clear the cookie
-    res.clearCookie('access_token');
+    // Clear the cookie with same options as when it was set
+    res.clearCookie('access_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
+    });
 
     return { message: 'Logged out successfully' };
   }
